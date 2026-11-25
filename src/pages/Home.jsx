@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
-import SkeletonCard from "../components/SkeletonCard";
+import SkeletonCard from "../SkeletonCard";
 
 const API_KEY = "da22de3a";
 
