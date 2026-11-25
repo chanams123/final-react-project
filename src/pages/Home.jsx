@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import MovieCard from "../MovieCard";
-import SkeletonCard from "../SkeletonCard";
+import MovieCard from "../components/MovieCard";
+import SkeletonCard from "../components/SkeletonCard";
 
-const API_KEY = "da22de3a"; 
+const API_KEY = "da22de3a";
+
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("q") || "";
@@ -12,7 +13,7 @@ export default function Home() {
   const [input, setInput] = useState(q);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (!q) return;
@@ -20,21 +21,21 @@ export default function Home() {
 
     async function loadMovies() {
       setLoading(true);
-      setError("");
+      setMessage("");
       try {
-        const res = await fetch(
-          `https://www.omdbapi.com/?s=${encodeURIComponent(q)}&apikey=da22de3a`
+        const response = await fetch(
+          `https://www.omdbapi.com/?s=${encodeURIComponent(q)}&apikey=${API_KEY}`
         );
-        const data = await res.json();
+        const data = await response.json();
         if (ignore) return;
-        if (data.Response === "True") {
+        if (data.Search) {
           setMovies(data.Search);
         } else {
           setMovies([]);
-          setError(data.Error);
+          setMessage("No results found.");
         }
       } catch {
-        if (!ignore) setError("Something went wrong. Please try again.");
+        if (!ignore) setMessage("Something went wrong. Please try again.");
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -47,15 +48,22 @@ export default function Home() {
   }, [q]);
 
   function handleSearch() {
-    if (input.trim()) setSearchParams({ q: input.trim(), sort });
+    if (input.trim()) {
+      setSearchParams({ q: input.trim(), sort });
+    } else {
+      setMovies([]);
+      setMessage("No results found.");
+    }
   }
 
-  function sortMovies(e) {
-    setSearchParams({ q, sort: e.target.value });
+  function sortMovies(event) {
+    setSearchParams({ q, sort: event.target.value });
   }
 
   const sortedMovies = [...movies].sort((a, b) =>
-    sort === "a-z" ? a.Title.localeCompare(b.Title) : b.Title.localeCompare(a.Title)
+    sort === "a-z"
+      ? a.Title.localeCompare(b.Title)
+      : b.Title.localeCompare(a.Title)
   );
 
   return (
@@ -73,7 +81,7 @@ export default function Home() {
               <input
                 type="text"
                 id="searchInput"
-                placeholder="Search thousands of movies"
+                placeholder="Search thousand of movies"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -91,12 +99,15 @@ export default function Home() {
       </main>
 
       <div id="results">
-        {error && <p>{error}</p>}
-        {loading
-          ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-          : sortedMovies.map((movie) => (
-              <MovieCard key={movie.imdbID} movie={movie} />
-            ))}
+        {loading ? (
+          Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
+        ) : message ? (
+          <p>{message}</p>
+        ) : (
+          sortedMovies.map((movie) => (
+            <MovieCard key={movie.imdbID} movie={movie} />
+          ))
+        )}
       </div>
     </>
   );
