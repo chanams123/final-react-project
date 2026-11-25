@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import MovieDetails from "./pages/MovieDetails";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -16,3 +18,5 @@ function App() {
     </>
   );
 }
+
+export default App;
