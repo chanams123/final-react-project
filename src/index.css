@@ -29,7 +29,7 @@ a {
   initial-value: 135deg;
 }
 
-.nav {
+.navbar {
   background-image: linear-gradient(
     var(--nav-angle),
     /* 135deg, */ /* use 135deg instead of the var(--nav-angle) if you don't plan on navShimmer anim */
@@ -51,7 +51,7 @@ a {
 /* Shimmer sweep on nav while the search input is hovered */
 /* this is needed to add the nav animation below */
 
-.nav:has(.search-form__input:hover) {
+.navbar:has(.search-form__input:hover) {
   --nav-angle: 184deg;
   background-image: linear-gradient(
       var(--nav-angle),
@@ -182,7 +182,7 @@ a {
   cursor: pointer;
 }
 
-.movies-grid {
+#results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
@@ -208,7 +208,7 @@ a {
   box-shadow: 1px 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-.movie-card__title {
+.movie-card h4 {
   font-size: 16px;
   margin: 10px 0 5px 0;
 }
@@ -249,7 +249,7 @@ a {
   border-radius: 12px;
 }
 
-.movie-card__img--skeleton {
+.skeleton-img {
   width: 100%;
   aspect-ratio: 2 / 3;
   border-radius: 12px;
@@ -258,7 +258,7 @@ a {
   animation: shimmer 1.5s infinite;
 }
 
-.movie-card__title--skeleton {
+.skeleton-line {
   height: 20px;
   background: #e0e0e0;
   margin: 10px 0 5px 0;
@@ -470,7 +470,7 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 800px) {
-  .nav {
+  .navbar {
     grid-template-columns: 1fr;
   }
   .logo,
