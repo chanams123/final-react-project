@@ -524,3 +524,30 @@ footer {
 
 .details-content { display: flex; gap: 24px; flex-wrap: wrap; padding: 20px; }
 .details-content img { max-width: 300px; width: 100%; }
+/* Centered logo with the links underneath */
+header .header-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+header .logo__img {
+  width: 60px;
+  margin: 0 auto;
+}
+
+header .logo__img img {
+  display: block;
+  width: 100%;
+}
+
+header .navbar ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 24px;
+}
